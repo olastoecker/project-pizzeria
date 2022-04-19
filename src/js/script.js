@@ -90,7 +90,7 @@
 
       /* find the clickable trigger (the element that should react to clicking) */
 
-      const clickableTrigger = document.querySelector(select.menuProduct.clickable); /* wersja probna, chce szukac dokladniej a nei w document */
+      const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable); 
 
       /* START: add event listener to clickable trigger on event click */
 
@@ -102,7 +102,7 @@
 
         /* find active product (product that has active class) */
 
-        const activeProduct = document.querySelector(thisProduct.element); 
+        const activeProduct = document.querySelector(select.all.menuProductsActive); 
 
         /* if there is active product and it's not thisProduct.element, remove class active from it */
 
