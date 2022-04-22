@@ -97,6 +97,7 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
 
     initAccordion(){
@@ -157,7 +158,7 @@
 
       // convert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
       const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log('formData', formData);
+      // console.log('formData', formData);
 
       // set price to default price
       let price = thisProduct.data.price;
@@ -173,10 +174,10 @@
         for(let optionId in param.options) {
           // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-          console.log(optionId, option);
-
+          // console.log(optionId, option);
           // NEW check if there is param with a name of paramId in formData and if it includes optionId
-          if(formData[paramId] && formData[paramId].includes(optionId)){
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+          if(optionSelected){
           // NEW check if it's NOT a default option
             if(!option.default) { 
               // NEW // add option price to price variable
@@ -187,19 +188,29 @@
             // NEW reduce price variable
             price-=option.price;
           }
+          // 7.7 find pic class .paramId-optionId
+          const optionImage = thisProduct.imageWrapper.querySelector(select.menuProduct.imageWrapper);
+          // check if pic was found
+          if(optionImage){
+            if(optionSelected){
+              optionImage.classList.add(classNames.menuProduct.imageVisible);
+            } else {
+              optionImage.classList.remove(classNames.menuProduct.imageVisible);
+            }
+          }
         }
-      }
-  
-      // update calculated price in the HTML
-      thisProduct.priceElem.innerHTML = price;
+    
+        // update calculated price in the HTML
+        thisProduct.priceElem.innerHTML = price;
       // console.log(this.processOrder);
+      }
     }
+  
   }
-
   const app = {
     initMenu: function(){
       const thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
+      // console.log('thisApp.data:', thisApp.data);
       for(let productData in thisApp.data.products){
         new Product(productData, thisApp.data.products[productData]);
       }
@@ -226,5 +237,5 @@
 
 
   app.init();
-}
+} 
 
