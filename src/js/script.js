@@ -189,7 +189,7 @@
             price-=option.price;
           }
           // 7.7 find pic class .paramId-optionId
-          const optionImage = thisProduct.imageWrapper.querySelector(select.menuProduct.imageWrapper);
+          const optionImage = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
           // check if pic was found
           if(optionImage){
             if(optionSelected){
