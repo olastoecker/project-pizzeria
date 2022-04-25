@@ -63,8 +63,9 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
-      thisProduct.processOrder();
       thisProduct.initAmountWidget();
+      thisProduct.processOrder();
+      
 
       // console.log('new Product:', thisProduct);
     }
@@ -251,9 +252,11 @@
 
       const newValue = parseInt(value);
 
+      thisWidget.value = settings.amountWidget.defaultValue;
+
       /* TODO: add validation */
 
-      thisWidget.input.value = thisWidget.value;
+      // thisWidget.input.value = thisWidget.value;
 
       if(thisWidget.value !== newValue 
         && !isNaN(newValue)
@@ -261,10 +264,9 @@
         && newValue <= 10){
         thisWidget.value = newValue;
       }
+      thisWidget.input.value = thisWidget.value;
       // wywołanie metody announce //
       thisWidget.announce();
-
-
     }
 
     initActions(){
@@ -288,6 +290,7 @@
 
     announce(){
       const thisWidget = this;
+
       const event = new Event('updated');
       thisWidget.element.dispatchEvent(event);
     }
