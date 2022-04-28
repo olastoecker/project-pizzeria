@@ -128,7 +128,7 @@
     getElements(){
       const thisProduct = this;
     
-      thisProduct.dom = {};
+      // thisProduct.dom = {};
 
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
@@ -188,6 +188,7 @@
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
       });
       // console.log(this.initOrderForm);
     }
@@ -239,7 +240,7 @@
           }
         }
       }
-    
+      thisProduct.priceSingle = price;
       // multiply price by amount //
       price *= thisProduct.amountWidget.value;
 
@@ -258,10 +259,61 @@
       thisProduct.amountWidgetElem.addEventListener('updated', function(){
         thisProduct.processOrder();
       });
-    }     
+    }   
     
-  }
+    addToCart(){
+      const thisProduct = this;
 
+      app.cart.add(thisProduct.prepareCartProduct());
+    }
+    
+    prepareCartProduct(){
+      const thisProduct = this;
+
+      const productSummary = {
+
+        id: thisProduct.id,
+        name: thisProduct.data.name,
+        amount: thisProduct.amountWidget.value,
+        priceSingle: thisProduct.priceSingle,
+        price: thisProduct.amountWidget.value * thisProduct.priceSingle,
+        params: thisProduct.prepareCartProductParams,
+      };
+      return productSummary;
+    }
+
+    prepareCartProductParams() {
+      const thisProduct = this;
+
+      // convert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      const params = {};
+
+      // for every category (param)
+      for(let paramId in thisProduct.data.params) {
+        //determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+        const param = thisProduct.data.params[paramId];
+        // create category param in params const eg. params = { ingredients: { name: 'Ingredients', options: {}}}}
+        params[paramId] = {
+          label: param.label,
+          options: {}
+        };
+
+        // for every option in this category
+        for(let optionId in param.options) {
+          const option = param.options[optionId];
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+          // check if option is selected
+          if(optionSelected) {
+            // option is selected
+            params[paramId].options[optionId] = option.label;
+          }
+        }
+      }
+      return params;
+      
+    }
+  }
   class AmountWidget{
     constructor(element){
       const thisWidget = this;
@@ -349,7 +401,7 @@
       thisCart.dom = {};
 
       thisCart.dom.wrapper = element;
-      
+
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
     }
 
@@ -357,9 +409,14 @@
       const thisCart = this;
 
       thisCart.dom.toggleTrigger.addEventListener('click', function(){
-        thisCart.dom.wrapper.classList.toggle('active');
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
+    }
 
+    add(menuProduct){
+      // const thisCart = this;
+
+      console.log('adding product', menuProduct);
     }
   }
 
@@ -377,7 +434,7 @@
       // console.log('*** App starting ***');
       // console.log('thisApp:', thisApp);
       // console.log('classNames:', classNames);
-      console.log('settings:', settings);
+      // console.log('settings:', settings);
       // console.log('templates:', templates);
       
       thisApp.initData();
