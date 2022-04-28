@@ -277,7 +277,7 @@
         amount: thisProduct.amountWidget.value,
         priceSingle: thisProduct.priceSingle,
         price: thisProduct.amountWidget.value * thisProduct.priceSingle,
-        params: thisProduct.prepareCartProductParams,
+        params: thisProduct.prepareCartProductParams(),
       };
       return productSummary;
     }
@@ -317,12 +317,11 @@
   class AmountWidget{
     constructor(element){
       const thisWidget = this;
+      thisWidget.value = settings.amountWidget.defaultValue;
 
       thisWidget.getElements(element);
-      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.setValue(thisWidget.value);
       thisWidget.initActions();
-
-      thisWidget.value = settings.amountWidget.defaultValue;
 
       console.log('AmountWidget:', thisWidget),
       console.log('constructor arguments:', element);
