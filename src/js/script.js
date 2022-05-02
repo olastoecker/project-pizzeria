@@ -405,7 +405,7 @@
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
       thisCart.dom.deliveryFee = document.querySelector(select.cart.deliveryFee);
       thisCart.dom.subtotalPrice = document.querySelector(select.cart.subtotalPrice);
-      thisCart.dom.totalPrice = document.querySelectorAll(select.cart.totalPrice);
+      thisCart.dom.totalPrice = document.querySelector(select.cart.totalPrice);
       thisCart.dom.totalNumber = document.querySelector(select.cart.totalNumber);
     }
 
