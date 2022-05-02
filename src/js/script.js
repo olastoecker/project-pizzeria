@@ -377,7 +377,9 @@
     announce(){
       const thisWidget = this;
 
-      const event = new Event('updated');
+      const event = new CustomEvent('updated', {
+        bubbles: true
+      });
       thisWidget.element.dispatchEvent(event);
     }
   }
@@ -405,7 +407,7 @@
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
       thisCart.dom.deliveryFee = document.querySelector(select.cart.deliveryFee);
       thisCart.dom.subtotalPrice = document.querySelector(select.cart.subtotalPrice);
-      thisCart.dom.totalPrice = document.querySelector(select.cart.totalPrice);
+      thisCart.dom.totalPrice = document.querySelectorAll(select.cart.totalPrice);
       thisCart.dom.totalNumber = document.querySelector(select.cart.totalNumber);
     }
 
@@ -414,6 +416,14 @@
 
       thisCart.dom.toggleTrigger.addEventListener('click', function(){
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+
+      thisCart.dom.productList.addEventListener('updated', function(){
+        thisCart.update();
+      });
+
+      thisCart.dom.productList.addEventListener('remove', function(event){
+        thisCart.remove(event.detail.cartProduct);
       });
     }
 
@@ -439,33 +449,46 @@
     update(){
       const thisCart = this;
 
-      const deliveryFee = settings.cart.defaultDeliveryFee;
-      thisCart.totalNumber = 0;  // liczba sztuk //
-      thisCart.subtotalPrice = 0; // zsumowana cena za wszystko bez kosztu dostawy //
+      let deliveryFee = settings.cart.defaultDeliveryFee;
+      let totalNumber = 0;  // liczba sztuk //
+      let subtotalPrice = 0; // zsumowana cena za wszystko bez kosztu dostawy //
 
-      for(let cartProduct of thisCart.products){
-        thisCart.totalNumber = cartProduct.amount + thisCart.totalNumber;
-        thisCart.dom.totalNumber.innerHTML = thisCart.totalNumber;
-
-        thisCart.subtotalPrice = cartProduct.price + thisCart.subtotalPrice;
-        thisCart.dom.subtotalPrice.innerHTML = thisCart.subtotalPrice;
+      for(let product of thisCart.products){
+        totalNumber = totalNumber + product.amount;
+        subtotalPrice = subtotalPrice + product.price;
       }
 
       thisCart.totalPrice = thisCart.subtotalPrice + deliveryFee;
 
-      if (thisCart.subtotalPrice > 0) {
-        thisCart.totalPrice = thisCart.subtotalPrice + deliveryFee;
+      if (subtotalPrice > 0) {
+        thisCart.totalPrice = subtotalPrice + deliveryFee;
       } else {
-        thisCart.totalPrice == 0;
+        thisCart.totalPrice = 0;
+        deliveryFee = 0;
       }
-      thisCart.dom.totalNumber.innerHTML = thisCart.totalNumber;
-      thisCart.dom.totalPrice.innerHTML = thisCart.totalPrice;
+
       thisCart.dom.deliveryFee.innerHTML = deliveryFee;
-      thisCart.dom.subtotalPrice.innerHTML = thisCart.subtotalPrice;
+      thisCart.dom.totalNumber.innerHTML = totalNumber;
+      thisCart.dom.subtotalPrice.innerHTML = subtotalPrice;
+      for (let total of thisCart.dom.totalPrice) {
+        total.innerHTML = thisCart.totalPrice;
+      }
+      
 
       console.log('totalPrice:', thisCart.totalPrice);
       console.log('deliveryFee:', deliveryFee);
-      console.log('subTotalPrice:', thisCart.subtotalPrice);
+      console.log('subTotalPrice:', subtotalPrice);
+    }
+
+    remove(element){
+      const thisCart = this;
+
+      element.dom.wrapper.remove();
+
+      const indexOfProduct = thisCart.products.indexOf(element);
+      thisCart.products.splice(indexOfProduct, 1);
+
+      thisCart.update();
     }
   }
 
@@ -481,9 +504,8 @@
       thisCartProduct.params = menuProduct.params;
 
       thisCartProduct.getElements(element);
-      // console.log('thisCartProduct:', thisCartProduct);
-
       thisCartProduct.initAmountWidget();
+      thisCartProduct.initActions();
     }
 
     getElements(element) {
@@ -510,6 +532,33 @@
         thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
 
       });
+    }
+
+    remove(){
+      const thisCartProduct = this;
+
+      const event = new CustomEvent('remove', {
+        bubbles: true,
+        detail: {
+          cartProduct: thisCartProduct,
+        },
+      });
+      thisCartProduct.dom.wrapper.dispatchEvent(event);
+      console.log(thisCartProduct.remove);
+    }
+
+    initActions(){
+      const thisCartProduct = this;
+
+      thisCartProduct.dom.edit.addEventListener('click', function(event){
+        event.preventDefault();
+      });
+
+      thisCartProduct.dom.remove.addEventListener('click', function(event){
+        event.preventDefault();
+        thisCartProduct.remove();
+      });
+
     }
   }
 
