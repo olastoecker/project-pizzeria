@@ -41,11 +41,11 @@ class Booking{
     // console.log('getData params', params);
 
     const urls = {
-      booking:        settings.db.url + '/' + settings.db.bookings
-                                      + '?' + params.booking.join('&'),
-      eventsCurrent:  settings.db.url + '/' + settings.db.event
+      booking:        settings.db.url + '/' + settings.db.booking
+                                      + '?' + params.bookings.join('&'),
+      eventsCurrent:  settings.db.url + '/' + settings.db.events
                                       + '?' + params.eventsCurrent.join('&'),
-      eventsRepeat:   settings.db.url + '/' + settings.db.event
+      eventsRepeat:   settings.db.url + '/' + settings.db.events
                                       + '?' + params.eventsRepeat.join('&'),
     };
 

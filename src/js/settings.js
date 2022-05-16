@@ -97,6 +97,19 @@ export const settings = {
   cart: {
     defaultDeliveryFee: 20,
   },
+
+  db: {
+    url: '//localhost:3131',
+    products: 'products',
+    orders: 'orders',
+    booking: 'booking',
+    events: 'event',
+    dateStartParamKey: 'date_gte',
+    dateEndParamKey: 'date_lte',
+    notRepeatParam: 'repeat=false',
+    repeatParam: 'repeat_ne=false',
+  },
+  
   hours: {
     open: 12,
     close: 24,
@@ -106,17 +119,6 @@ export const settings = {
   },
   booking: {
     tableIdAttribute: 'data-table',
-  },
-  db: {
-    url: '//localhost:3131',
-    products: 'products',
-    orders: 'orders',
-    booking: 'booking',
-    event: 'event',
-    dateStartParamKey: 'date_gte',
-    dateEndParamKey: 'date_lte',
-    notRepeatParam: 'repeat=false',
-    repeatParam: 'repeat_ne=false',
   },
 };
   
