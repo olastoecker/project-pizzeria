@@ -124,7 +124,7 @@ class Booking{
       if(
         !allAvailable
       &&
-      thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId) > -1
+      thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)
       ){
         table.classList.remove(classNames.booking.tableBooked);
       } else {
@@ -194,7 +194,7 @@ class Booking{
   }
 
   initTables(event){
-    const thisBooking = this;
+    // const thisBooking = this;
 
     const chosenTable = event.target;
     // let tableID = chosenTable.getAttribute(settings.booking.tableIdAttribute);
@@ -210,6 +210,39 @@ class Booking{
     
       
     }
+  }
+
+  sendBooking(){
+    const thisBooking = this;
+
+    const url = settings.db.url + '/' + settings.db.booking;
+
+    const payload = {
+
+      date: thisBooking.datePicker.value,
+      hour: thisBooking.hourPicker.value,
+      table: parseInt(thisBooking.tableSelected),
+      duration: parseInt(thisBooking.hoursAmount.value),
+      ppl: parseInt(thisBooking.peopleAmount.value),
+      starters: [],
+      phone: thisBooking.dom.phone.value,
+      address: thisBooking.dom.address.value
+    };
+
+    for(let starter of thisBooking.dom.starters) {
+      payload.starters.push(starter.value);
+    }
+    thisBooking.booked[thisBooking.date][thisBooking.hour].push(thisBooking.tableSelected);
+    
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+      
+    fetch(url, options);
   }
 }
 
