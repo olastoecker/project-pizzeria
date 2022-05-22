@@ -121,15 +121,14 @@ class Booking{
       if(!isNaN(tableId)){
         tableId = parseInt(tableId);
       }
-
       if(
         !allAvailable
       &&
       thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId) > -1
       ){
-        table.classList.add(classNames.booking.tableBooked);
-      } else {
         table.classList.remove(classNames.booking.tableBooked);
+      } else {
+        table.classList.add(classNames.booking.tableBooked);
       }
     }
   }
