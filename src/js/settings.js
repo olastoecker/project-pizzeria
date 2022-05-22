@@ -1,7 +1,7 @@
 export const select = {
   templateOf: {
     menuProduct: '#template-menu-product',
-    cartProduct: '#template-cart-product', // CODE ADDED
+    cartProduct: '#template-cart-product', 
     bookingWidget: '#template-booking-widget',
   },
   containerOf: {
@@ -103,7 +103,7 @@ export const settings = {
   },
 
   db: {
-    url: '//localhost:3131',
+    url: '//' + window.location.hostname + (window.location.hostname=='localhost' ? ':3131' : ''),
     products: 'products',
     orders: 'orders',
     booking: 'booking',

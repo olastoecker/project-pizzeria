@@ -232,8 +232,9 @@ class Booking{
     for(let starter of thisBooking.dom.starters) {
       payload.starters.push(starter.value);
     }
-    thisBooking.booked[thisBooking.date][thisBooking.hour].push(thisBooking.tableSelected);
     
+    thisBooking.booked[thisBooking.date][thisBooking.hour].push(thisBooking.tableSelected);
+
     const options = {
       method: 'POST',
       headers: {
