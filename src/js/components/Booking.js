@@ -191,6 +191,10 @@ class Booking{
         thisBooking.initTables(event);
       });
     }
+    // thisBooking.tables.addEventListener('submit', function(event){
+    //   event.preventDefault();
+    //   thisBooking.sendBooking();
+    // });
   }
 
   initTables(event){
@@ -205,11 +209,11 @@ class Booking{
     } else {
       if(!chosenTable.classList.contains(classNames.booking.tableSelected))
         chosenTable.classList.toggle(classNames.booking.tableSelected);
-
-      
-    
-      
     }
+    // thisBooking.dom.table.addEventListener('submit', function(event){
+    //   event.preventDefault();
+    //   thisBooking.sendBooking();
+    // });
   }
 
   sendBooking(){
