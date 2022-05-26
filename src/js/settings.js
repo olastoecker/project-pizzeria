@@ -38,6 +38,15 @@ export const select = {
       input: 'input[type="range"]',
       output: '.output',
     },
+    phone: {
+      wrapper: '.order-confirmation input[type="tel"]',
+    },
+    address: {
+      wrapper: '.order-confirmation input[type="text"]',
+    },
+    starter: {
+      wrapper: '.checkbox input[type="checkbox"]',
+    },
   },  
   booking: {
     peopleAmount: '.people-amount',

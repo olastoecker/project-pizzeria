@@ -165,6 +165,9 @@ class Booking{
     thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
     thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
+    thisBooking.dom.phone = thisBooking.dom.wrapper.querySelector(select.widgets.phone.wrapper);
+    thisBooking.dom.address = thisBooking.dom.wrapper.querySelector(select.widgets.address.wrapper);
+    thisBooking.dom.starters = thisBooking.dom.wrapper.querySelectorAll(select.widgets.starter.wrapper);
   }
 
   initWidgets(){
@@ -191,10 +194,10 @@ class Booking{
         thisBooking.initTables(event);
       });
     }
-    // thisBooking.tables.addEventListener('submit', function(event){
-    //   event.preventDefault();
-    //   thisBooking.sendBooking();
-    // });
+    thisBooking.dom.wrapper.addEventListener('submit', function(event){
+      event.preventDefault();
+      thisBooking.sendBooking();
+    });
   }
 
   initTables(event){
@@ -210,10 +213,6 @@ class Booking{
       if(!chosenTable.classList.contains(classNames.booking.tableSelected))
         chosenTable.classList.toggle(classNames.booking.tableSelected);
     }
-    // thisBooking.dom.table.addEventListener('submit', function(event){
-    //   event.preventDefault();
-    //   thisBooking.sendBooking();
-    // });
   }
 
   sendBooking(){
@@ -226,15 +225,15 @@ class Booking{
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
       table: parseInt(thisBooking.tableSelected),
-      duration: parseInt(thisBooking.hoursAmount.value),
-      ppl: parseInt(thisBooking.peopleAmount.value),
-      starters: [],
+      duration: parseInt(thisBooking.dom.hoursAmount.value),
+      ppl: parseInt(thisBooking.dom.peopleAmount.value),
+      starter: [],
       phone: thisBooking.dom.phone.value,
       address: thisBooking.dom.address.value
     };
 
     for(let starter of thisBooking.dom.starters) {
-      payload.starters.push(starter.value);
+      payload.starter.push(starter.value);
     }
     
     thisBooking.booked[thisBooking.date][thisBooking.hour].push(thisBooking.tableSelected);
