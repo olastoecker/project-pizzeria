@@ -47,6 +47,9 @@ export const select = {
     starter: {
       wrapper: '.checkbox input[type="checkbox"]',
     },
+    tables: {
+      wrapper: '.floor-plan .table',
+    },
   },  
   booking: {
     peopleAmount: '.people-amount',

@@ -204,7 +204,6 @@ class Booking{
     // const thisBooking = this;
 
     const chosenTable = event.target;
-    // let tableID = chosenTable.getAttribute(settings.booking.tableIdAttribute);
 
     if(chosenTable.classList.contains(classNames.booking.tableBooked)
     ){ 
@@ -219,21 +218,23 @@ class Booking{
     const thisBooking = this;
 
     const url = settings.db.url + '/' + settings.db.booking;
-
+    console.log(thisBooking.tableBooked);
     const payload = {
 
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: parseInt(thisBooking.tableSelected),
-      duration: parseInt(thisBooking.dom.hoursAmount.value),
-      ppl: parseInt(thisBooking.dom.peopleAmount.value),
+      table: classNames.booking.tableSelected,
+      duration: parseInt(thisBooking.hoursAmountWidget.value),
+      ppl: parseInt(thisBooking.peopleAmountWidget.value),
       starter: [],
       phone: thisBooking.dom.phone.value,
       address: thisBooking.dom.address.value
     };
 
     for(let starter of thisBooking.dom.starters) {
-      payload.starter.push(starter.value);
+      if (starter.checked === true){
+        payload.starter.push(starter.value);
+      }
     }
     
     thisBooking.booked[thisBooking.date][thisBooking.hour].push(thisBooking.tableSelected);
