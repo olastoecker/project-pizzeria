@@ -48,7 +48,7 @@ export const select = {
       wrapper: '.checkbox input[type="checkbox"]',
     },
     tables: {
-      wrapper: '.floor-plan .table',
+      wrapper: '.checkbox input[type="checkbox"]',
     },
   },  
   booking: {
@@ -134,7 +134,7 @@ export const settings = {
     maxDaysInFuture: 14,
   },
   booking: {
-    tableIdAttribute: 'data-table',
+    tableIdAttribute: 'data-table', 
   },
 };
   

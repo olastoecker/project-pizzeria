@@ -201,7 +201,7 @@ class Booking{
   }
 
   initTables(event){
-    // const thisBooking = this;
+    const thisBooking = this;
 
     const chosenTable = event.target;
 
@@ -211,6 +211,11 @@ class Booking{
     } else {
       if(!chosenTable.classList.contains(classNames.booking.tableSelected))
         chosenTable.classList.toggle(classNames.booking.tableSelected);
+    }
+    for(let table of thisBooking.dom.tables){
+      if(table !== chosenTable){
+        table.classList.remove(classNames.booking.tableSelected);
+      }
     }
   }
 
@@ -223,7 +228,7 @@ class Booking{
 
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: classNames.booking.tableSelected,
+      table: thisBooking.dom.tables,
       duration: parseInt(thisBooking.hoursAmountWidget.value),
       ppl: parseInt(thisBooking.peopleAmountWidget.value),
       starter: [],
