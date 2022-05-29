@@ -8,6 +8,7 @@ class Booking{
   constructor(element){
     const thisBooking = this;
 
+    thisBooking.chosenTable;
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getData();
@@ -210,7 +211,8 @@ class Booking{
       alert('Sorry, this table is already booked');
     } else {
       if(!chosenTable.classList.contains(classNames.booking.tableSelected))
-        chosenTable.classList.toggle(classNames.booking.tableSelected);
+        thisBooking.tableNumber = chosenTable.getAttribute(settings.booking.tableIdAttribute);
+      chosenTable.classList.toggle(classNames.booking.tableSelected);
     }
     for(let table of thisBooking.dom.tables){
       if(table !== chosenTable){
@@ -228,7 +230,7 @@ class Booking{
 
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: thisBooking.dom.tables,
+      table: parseInt(thisBooking.tableNumber),
       duration: parseInt(thisBooking.hoursAmountWidget.value),
       ppl: parseInt(thisBooking.peopleAmountWidget.value),
       starter: [],
